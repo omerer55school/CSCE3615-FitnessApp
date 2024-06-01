@@ -33,7 +33,14 @@
                         </button>
                     </x-slot>
 
+
                     <x-slot name="content">
+                        <x-dropdown-link onclick="toggleDarkMode()">
+                            {{ __('Toggle Dark Mode') }}
+                        </x-dropdown-link>
+    
+
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -80,6 +87,12 @@
             </div>
 
             <div class="mt-3 space-y-1">
+
+                <x-responsive-nav-link onclick="toggleDarkMode()">
+                    {{ __('Toggle Dark Mode') }}
+                </x-responsive-nav-link>
+
+
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
@@ -98,3 +111,8 @@
         </div>
     </div>
 </nav>
+<script>
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+}
+</script>
