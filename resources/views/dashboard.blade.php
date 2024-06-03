@@ -29,18 +29,9 @@
                 <div class="p-4 bg-white border-b border-gray-300">Activity</div>
                 <div class="p-4 bg-white">Weight</div>
             </div>
-    
-            <button class="self-center mb-4 p-6 rounded-full bg-blue-500 text-white text-2xl shadow-lg">+</button>
-    
-            {{-- <div class="flex justify-between items-center p-2 bg-gray-100">
-                <button class="p-2 text-lg text-gray-800">M</button>
-                <button class="p-2 text-lg text-gray-800">R</button>
-                <button class="p-2 text-lg text-gray-800">W</button>
-            </div> --}}
+
         </div>
     </div>
-
-
 
 
     <script>
