@@ -12,7 +12,7 @@
                     <form id="activity_form" class="space-y-8 divide-y divide-gray-200">
                         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                             <div>
-                                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                                <h3 class="flex justify-center text-xl leading-6 font-semibold text-gray-900 dark:text-white">
                                     Log Activity
                                 </h3>
                                 <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-300">

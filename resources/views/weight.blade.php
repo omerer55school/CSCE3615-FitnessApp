@@ -9,7 +9,17 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
-                    <form id="weight_form" class="space-y-6">
+
+                    <div class="border-b-2 py-3">
+                        <h3 class="flex justify-center text-xl leading-6 font-semibold text-gray-900 dark:text-white">
+                            Log Weight
+                        </h3>
+                        <p class="mt-3 max-w-2xl text-sm text-gray-500 dark:text-gray-300">
+                            Enter your weight so you can keep track of your weights over time.
+                        </p>
+                    </div>
+
+                    <form id="weight_form" class="space-y-6 mt-5">
                         <div>
                             <label for="weight_date" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
                                 Date
