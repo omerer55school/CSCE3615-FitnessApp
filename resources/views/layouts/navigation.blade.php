@@ -16,6 +16,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('activity')" :active="request()->routeIs('activity')">
+                        {{ __('Activity') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('weight')" :active="request()->routeIs('weight')">
+                        {{ __('Weight') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +83,14 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('activity')" :active="request()->routeIs('activity')">
+                {{ __('Activity') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('weight')" :active="request()->routeIs('weight')">
+                {{ __('Weight') }}
             </x-responsive-nav-link>
         </div>
 
