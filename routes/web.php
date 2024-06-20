@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\WeightController;
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,5 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::post('/api/activities', [ActivityController::class, 'store']);
+    Route::post('/api/weights', [WeightController::class, 'store']);
+    Route::get('/api/user-activities', [ActivityController::class, 'getUserActivities']);
+
+});
+
 
 require __DIR__.'/auth.php';

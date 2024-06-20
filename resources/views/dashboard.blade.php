@@ -15,10 +15,8 @@
 
                 <!-- Activity Log Section -->
                 <div class="section p-4 flex justify-center bg-white dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-                    <div class="text-lg font-semibold">Tacking Progress</div>
+                    <div class="text-lg font-semibold">Tracking Progress</div>
                 </div>
-
-
 
                 <!-- Activity Log Section -->
                 <div class="section px-4 pb-4 bg-white dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
@@ -44,7 +42,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white divide-y divide-gray-200" id="activity-log-tbody">
                                 <!-- Data rows will be dynamically inserted here -->
                             </tbody>
                         </table>
@@ -76,7 +74,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white divide-y divide-gray-200" id="weight-log-tbody">
                                 <!-- Data rows will be dynamically inserted here -->
                             </tbody>
                         </table>
@@ -111,8 +109,95 @@
         }
 
         // Example initialization call
-        loadData('activity');
-        loadData('weight');
-    </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData('activity');
+            loadData('weight');
+        });
 
+        function loadData(entity) {
+            if (entity === 'activity') {
+                fetch('/api/user-activities', {
+                    headers: {
+                        'X-CSRF-TOKEN': getCSRFToken()  // CSRF token for Laravel
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayActivities(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            } else if (entity === 'weight') {
+                // Load weight data here
+                // fetch('/api/user-weights', {
+                //     headers: {
+                //         'X-CSRF-TOKEN': getCSRFToken()  // CSRF token for Laravel
+                //     }
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     displayWeights(data);
+                // })
+                // .catch((error) => {
+                //     console.error('Error:', error);
+                // });
+            }
+        }
+
+        function displayActivities(activities) {
+            const tbody = document.getElementById('activity-log-tbody');
+            tbody.innerHTML = ''; // Clear any existing rows
+
+            activities.forEach(activity => {
+                let showRow = false;
+                let cardioDetails = '';
+                let workoutDetails = '';
+
+                if (activity.cardio_activity && (activity.cardio_activity.cardio_type || activity.cardio_activity.distance || activity.cardio_activity.time)) {
+                    showRow = true;
+                    cardioDetails = `Cardio Type: ${activity.cardio_activity.cardio_type || 'N/A'}, Distance: ${activity.cardio_activity.distance || 'N/A'} mi, Time: ${activity.cardio_activity.time || 'N/A'} min`;
+                }
+
+                if (activity.workout_activities.length > 0) {
+                    activity.workout_activities.forEach(workout => {
+                        if (workout.workout_type || workout.sets || workout.reps) {
+                            showRow = true;
+                            workoutDetails += `Workout Type: ${workout.workout_type || 'N/A'}, Sets: ${workout.sets || 'N/A'}, Reps: ${workout.reps || 'N/A'}<br>`;
+                        }
+                    });
+                }
+
+                if (showRow) {
+                    if (cardioDetails) {
+                        const cardioRow = `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${activity.activity_date}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Cardio</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cardioDetails}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += cardioRow;
+                    }
+
+                    if (workoutDetails) {
+                        const workoutRow = `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${activity.activity_date}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Workout</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${workoutDetails}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += workoutRow;
+                    }
+                }
+            });
+        }
+
+
+
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        }
+    </script>
 </x-app-layout>
