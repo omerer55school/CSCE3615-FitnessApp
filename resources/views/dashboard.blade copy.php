@@ -62,13 +62,6 @@
                         </svg>
                     </div>
                     <div class="sub-section p-2 bg-gray-100" id="weightSubSection">
-                        <!-- Date Range Filter -->
-                        <div class="flex justify-between mb-4">
-                            <input type="date" id="startDate" class="border px-2 py-1 rounded">
-                            <input type="date" id="endDate" class="border px-2 py-1 rounded">
-                            <button onclick="filterWeights()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Filter</button>
-                        </div>
-
                         <!-- Weight log table -->
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -85,9 +78,10 @@
                                 <!-- Data rows will be dynamically inserted here -->
                             </tbody>
                         </table>
-                        <!-- Weight Change Display -->
-                        <div class="mt-4 px-6 py-3 text-lg" id="weightChangeDisplay">
-                            <!-- Display weight change here -->
+                        <!-- Pagination controls -->
+                        <div class="flex justify-between padding-4">
+                            <button onclick="previousPage('weight', event)" class="mt-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Previous</button>
+                            <button onclick="nextPage('weight', event)" class="mt-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Next</button>
                         </div>
                     </div>
                 </div>
@@ -125,8 +119,7 @@
                 console.log('test');
                 fetch('/api/user-activities', {
                     headers: {
-                        'X-CSRF-TOKEN': getCSRFToken(),  // CSRF token for Laravel
-                        'Accept': 'application/json'
+                        'X-CSRF-TOKEN': getCSRFToken()  // CSRF token for Laravel
                     }
                 })
                 .then(response => response.json())
@@ -136,7 +129,6 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-
             } else if (entity === 'weight') {
                 // Load weight data here
                 fetch('/api/user-weights', {
@@ -203,52 +195,38 @@
             });
         }
 
-        function filterWeights() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            if (!startDate || !endDate) {
-                alert('Please select both start and end dates.');
-                return;
+        function loadData(entity) {
+            if (entity === 'weight') {
+                fetch('/api/user-weights', {
+                    headers: {
+                        'X-CSRF-TOKEN': getCSRFToken()  // CSRF token for Laravel
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    displayWeights(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             }
-
-            fetch(`/api/user-weights?start_date=${startDate}&end_date=${endDate}`, {
-                headers: {
-                    'X-CSRF-TOKEN': getCSRFToken(),
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                displayWeights(data);  // Assumes data is the array of weights
-                calculateWeightChange(data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
         }
 
         function displayWeights(weights) {
             const tbody = document.getElementById('weight-log-tbody');
-            tbody.innerHTML = ''; // Clear existing rows
+            tbody.innerHTML = ''; // Clear any existing rows
+
             weights.forEach(weight => {
                 const row = `
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${weight.weight_date}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${weight.weight} lbs</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${weight.weight}</td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
             });
         }
 
-        function calculateWeightChange(weights) {
-            if (weights.length > 1) {
-                const weightChange = weights[weights.length - 1].weight - weights[0].weight;
-                document.getElementById('weightChangeDisplay').textContent = `Weight Change: ${weightChange.toFixed(2)} lbs`;
-            } else {
-                document.getElementById('weightChangeDisplay').textContent = 'Not enough data to calculate change.';
-            }
-        }
 
         function getCSRFToken() {
             return document.querySelector('meta[name="csrf-token"]').getAttribute('content');

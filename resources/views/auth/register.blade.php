@@ -69,11 +69,31 @@
         <div class="form-step">
             <!-- Height -->
             <div class="mt-4">
-                <x-input-label for="height" :value="__('What is your height')" />
-                <x-text-input id="height" class="block mt-1 w-full" type="tel" name="height" required />
-                <x-input-error :messages="$errors->get('height')" class="mt-2" />
+                <x-input-label for="heightFeet" :value="__('What is your height?')" />
+
+                <!-- Select for Feet -->
+                <select id="heightFeet" name="heightFeet" class="block mt-1 w-full" required>
+                    <option value="">Feet</option>
+                    <!-- Options for Feet (0-8 feet) -->
+                    @for ($i = 0; $i <= 8; $i++)
+                        <option value="{{ $i }}">{{ $i }} ft</option>
+                    @endfor
+                </select>
+
+                <!-- Select for Inches -->
+                <select id="heightInches" name="heightInches" class="block mt-1 w-full" required>
+                    <option value="">Inches</option>
+                    <!-- Options for Inches (0-11 inches) -->
+                    @for ($j = 0; $j < 12; $j++)
+                        <option value="{{ $j }}">{{ $j }} in</option>
+                    @endfor
+                </select>
+
+                <x-input-error :messages="$errors->get('heightFeet')" class="mt-2" />
+                <x-input-error :messages="$errors->get('heightInches')" class="mt-2" />
             </div>
         </div>
+
 
 
         <!-- Step 5: Physical Information -->

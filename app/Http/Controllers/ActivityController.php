@@ -43,17 +43,20 @@ class ActivityController extends Controller
     public function getUserActivities()
     {
         $activities = Activity::where('user_id', Auth::id())
-            ->whereHas('cardioActivity', function($query) {
-                $query->whereNotNull('cardio_type')->orWhereNotNull('distance')->orWhereNotNull('time');
+            ->with(['cardioActivity', 'workoutActivities'])
+            ->where(function ($query) {
+                $query->whereHas('cardioActivity', function($subQuery) {
+                    $subQuery->whereNotNull('cardio_type')->orWhereNotNull('distance')->orWhereNotNull('time');
+                })
+                ->orWhereHas('workoutActivities', function($subQuery) {
+                    $subQuery->whereNotNull('workout_type')->orWhereNotNull('sets')->orWhereNotNull('reps');
+                });
             })
-            ->orWhereHas('workoutActivities', function($query) {
-                $query->whereNotNull('workout_type')->orWhereNotNull('sets')->orWhereNotNull('reps');
-            })
-            ->with('cardioActivity', 'workoutActivities')
             ->orderBy('activity_date', 'desc')
             ->get();
     
         return response()->json($activities);
     }
+    
     
 }

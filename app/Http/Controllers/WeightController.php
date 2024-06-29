@@ -18,4 +18,20 @@ class WeightController extends Controller
 
         return response()->json(['status' => 'success', 'weight_id' => $weight->id]);
     }
+
+
+    public function index(Request $request)
+    {
+        $query = Weight::where('user_id', Auth::id());
+    
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('weight_date', [$request->start_date, $request->end_date]);
+        }
+    
+        $weights = $query->orderBy('weight_date', 'asc')->get();
+    
+        return response()->json($weights);
+    }
+    
+    
 }
