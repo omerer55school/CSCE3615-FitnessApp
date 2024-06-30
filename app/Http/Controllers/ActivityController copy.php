@@ -103,24 +103,4 @@ class ActivityController extends Controller
         return response()->json($activities);
     }
 
-
-    public function getCalorieData(Request $request)
-    {
-        \Log::info($request->all());
-        \Log::info("Received dates: StartDate - {$request->start_date}, EndDate - {$request->end_date}");
-        $userId = Auth::id();
-        $startDate = $request->start_date;
-        $endDate = $request->end_date;
-    
-        $activities = Activity::where('user_id', $userId)
-            ->whereBetween('activity_date', [$startDate, $endDate])
-            ->withSum(['cardioActivity', 'workoutActivities'], 'calories_burned')
-            ->get();
-    
-        \Log::info("Fetched activities: " . $activities->toJson()); // This will log the JSON representation of activities
-        return response()->json($activities);
-    }
-    
-
-
 }

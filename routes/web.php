@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/weights', [WeightController::class, 'store']);
     Route::get('/api/user-activities', [ActivityController::class, 'getUserActivities']);
     Route::get('/api/user-weights', [WeightController::class, 'index']);
+    Route::get('/api/user-calories', [ActivityController::class, 'getCalorieData'])->name('user.calories');
+
 });
 
 
