@@ -37,13 +37,28 @@
                                 <h4 class="text-lg font-medium text-gray-900 dark:text-white mt-1">Cardio Activity</h4>
 
                                 <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
+
+
                                     <label for="cardio_type" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
                                         Cardio Type
                                     </label>
-                                
+                                    
                                     <div class="mt-1 sm:col-span-2">
-                                        <input type="text" name="cardio_type" id="cardio_type" class="max-w-lg block w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                                        <select id="cardio_type" name="cardio_type" class="max-w-lg block w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                                            <option value="">Select a cardio activity</option>
+                                            <option value="Running">Running</option>
+                                            <option value="Walking">Walking</option>
+                                            <option value="Biking">Biking</option>
+                                            <option value="Swimming">Swimming</option>
+                                            <option value="Rowing">Rowing</option>
+                                            <option value="Elliptical">Elliptical Training</option>
+                                            <option value="Jump Rope">Jump Rope</option>
+                                            <option value="Stair Climbing">Stair Climbing</option>
+                                            <option value="HIIT">High-Intensity Interval Training (HIIT)</option>
+                                        </select>
                                     </div>
+                                    
+
                                  
                                 </div>
 

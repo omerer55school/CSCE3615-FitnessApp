@@ -66,9 +66,12 @@
                         <div class="flex justify-between mb-4">
                             <input type="date" id="startDate" class="border px-2 py-1 rounded">
                             <input type="date" id="endDate" class="border px-2 py-1 rounded">
-                            <button onclick="filterWeights()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Filter</button>
+                            <button onclick="filterWeights()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Calculate Weight Change Over Time</button>
                         </div>
-
+                        <!-- Weight Change Display -->
+                        <div class="mt-4 px-6 py-3 text-lg" id="weightChangeDisplay">
+                            <!-- Display weight change here -->
+                        </div>
                         <!-- Weight log table -->
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -85,10 +88,6 @@
                                 <!-- Data rows will be dynamically inserted here -->
                             </tbody>
                         </table>
-                        <!-- Weight Change Display -->
-                        <div class="mt-4 px-6 py-3 text-lg" id="weightChangeDisplay">
-                            <!-- Display weight change here -->
-                        </div>
                     </div>
                 </div>
             </div>
