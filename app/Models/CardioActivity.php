@@ -9,5 +9,5 @@ class CardioActivity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['activity_id', 'cardio_type', 'distance', 'time'];
+    protected $fillable = ['activity_id', 'cardio_type', 'distance', 'time', 'calories_burned'];
 }
