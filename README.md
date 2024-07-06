@@ -80,7 +80,7 @@ Before you begin, make sure you have the following installed:
 1. Clone the Repository
 
    Open your terminal and run the following command to clone the project repository:
-   git clone https://github.com/IT4U-MAIN/CSCE3615-Group-project.git
+   git clone https://github.com/omerer55school/CSCE3615-FitnessApp
    cd CSCE3615-Group-project
 
 2. Install PHP Dependencies
