@@ -1,9 +1,10 @@
 <x-guest-layout>
-
-
     <style>
         .form-step {
             display: none;
+        }
+        .form-step.active {
+            display: block;
         }
     </style>
 
@@ -35,7 +36,6 @@
             </div>
         </div>
 
-
         <!-- Step 2: Security Information -->
         <div class="form-step">
             <div>
@@ -52,16 +52,39 @@
             </div>
         </div>
 
-
-
-
         <!-- Step 3: Personal Details -->
         <div class="form-step">
             <!-- Date of Birth -->
             <div class="mt-4">
-                <x-input-label for="dob" :value="__('Date of Birth')" />
-                <x-text-input id="dob" class="block mt-1 w-full" type="date" name="dob" required />
-                <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+                <x-input-label for="dob_day" :value="__('Date of Birth')" />
+                <div class="flex space-x-2 mt-1">
+                    <!-- Day -->
+                    <select id="dob_day" name="dob_day" class="block w-1/3" required>
+                        <option value="">{{ __('Day') }}</option>
+                        @for ($i = 1; $i <= 31; $i++)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    
+                    <!-- Month -->
+                    <select id="dob_month" name="dob_month" class="block w-1/3" required>
+                        <option value="">{{ __('Month') }}</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}">{{ date('F', mktime(0, 0, 0, $i, 1)) }}</option>
+                        @endfor
+                    </select>
+                    
+                    <!-- Year -->
+                    <select id="dob_year" name="dob_year" class="block w-1/3" required>
+                        <option value="">{{ __('Year') }}</option>
+                        @for ($i = date('Y'); $i >= 1900; $i--)
+                            <option value="{{ $i }}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <x-input-error :messages="$errors->get('dob_day')" class="mt-2" />
+                <x-input-error :messages="$errors->get('dob_month')" class="mt-2" />
+                <x-input-error :messages="$errors->get('dob_year')" class="mt-2" />
             </div>
         </div>
 
@@ -74,7 +97,6 @@
                 <!-- Select for Feet -->
                 <select id="heightFeet" name="heightFeet" class="block mt-1 w-full" required>
                     <option value="">Feet</option>
-                    <!-- Options for Feet (0-8 feet) -->
                     @for ($i = 0; $i <= 8; $i++)
                         <option value="{{ $i }}">{{ $i }} ft</option>
                     @endfor
@@ -83,7 +105,6 @@
                 <!-- Select for Inches -->
                 <select id="heightInches" name="heightInches" class="block mt-1 w-full" required>
                     <option value="">Inches</option>
-                    <!-- Options for Inches (0-11 inches) -->
                     @for ($j = 0; $j < 12; $j++)
                         <option value="{{ $j }}">{{ $j }} in</option>
                     @endfor
@@ -94,17 +115,22 @@
             </div>
         </div>
 
-
-
         <!-- Step 5: Physical Information -->
         <div class="form-step">
             <!-- Weight -->
             <div class="mt-4">
-                <x-input-label for="weight" :value="__('What is your weight')" />
-                <x-text-input id="weight" class="block mt-1 w-full" type="tel" name="weight" required />
+                <x-input-label for="weight" :value="__('What is your weight in lbs?')" />
+                <select id="weight" name="weight" class="block mt-1 w-full" required>
+                    <option value="">{{ __('Select Weight') }}</option>
+                    @for ($i = 50; $i <= 500; $i++)
+                        <option value="{{ $i }}">{{ $i }} lbs</option>
+                    @endfor
+                </select>
                 <x-input-error :messages="$errors->get('weight')" class="mt-2" />
             </div>
         </div>
+
+
 
         <!-- Step 5: User Credentials -->
         <div class="form-step active">
@@ -125,26 +151,17 @@
             <!-- Password -->
             <div class="mt-4">
                 <x-input-label for="password" :value="__('Password')" />
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
+                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
             <!-- Confirm Password -->
             <div class="mt-4">
                 <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+                <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
         </div>
-
-
-
-
 
         <!-- Navigation Buttons -->
         <div class="form-navigation mt-4">
@@ -159,6 +176,7 @@
             </a>
         </div>
     </form>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('registrationForm');
@@ -170,9 +188,9 @@
 
             function showStep(step) {
                 steps.forEach((step, index) => {
-                    step.style.display = 'none';
+                    step.classList.remove('active');
                 });
-                steps[step].style.display = 'block';
+                steps[step].classList.add('active');
 
                 if (step === 0) {
                     previousButton.style.display = 'none';
@@ -206,8 +224,4 @@
             showStep(0); // Initialize the form with the first step visible
         });
     </script>
-
-
-
-
 </x-guest-layout>

@@ -111,6 +111,12 @@
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     addWorkoutEntry(); // Add initial workout entry
+    const dateInput = document.getElementById('activity_date');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(today.getDate()).padStart(2, '0');
+    dateInput.value = `${year}-${month}-${day}`;
 });
 
 function addWorkoutEntry() {

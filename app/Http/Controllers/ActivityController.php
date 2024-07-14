@@ -90,11 +90,17 @@ class ActivityController extends Controller
     public function getUserActivities()
     {
         $activities = Activity::where('user_id', Auth::id())
-            ->whereHas('cardioActivity', function($query) {
-                $query->whereNotNull('cardio_type')->orWhereNotNull('distance')->orWhereNotNull('time');
-            })
-            ->orWhereHas('workoutActivities', function($query) {
-                $query->whereNotNull('workout_type')->orWhereNotNull('sets')->orWhereNotNull('reps');
+            ->where(function($query) {
+                $query->whereHas('cardioActivity', function($query) {
+                    $query->whereNotNull('cardio_type')
+                          ->orWhereNotNull('distance')
+                          ->orWhereNotNull('time');
+                })
+                ->orWhereHas('workoutActivities', function($query) {
+                    $query->whereNotNull('workout_type')
+                          ->orWhereNotNull('sets')
+                          ->orWhereNotNull('reps');
+                });
             })
             ->with('cardioActivity', 'workoutActivities')
             ->orderBy('activity_date', 'desc')
@@ -102,6 +108,7 @@ class ActivityController extends Controller
     
         return response()->json($activities);
     }
+    
 
 
     public function getCalorieData(Request $request)

@@ -2,22 +2,31 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Activity;
+use App\Models\CardioActivity;
+use App\Models\WorkoutActivity;
+use App\Models\Weight;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
+        // Create 10 users
+        User::factory()->count(10)->create()->each(function ($user) {
+            // Create 5 activities for each user
+            Activity::factory()->count(5)->create(['user_id' => $user->id])->each(function ($activity) {
+                // Create cardio and workout activities
+                if (rand(0, 1)) {
+                    CardioActivity::factory()->create(['activity_id' => $activity->id]);
+                } else {
+                    WorkoutActivity::factory()->create(['activity_id' => $activity->id]);
+                }
+            });
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            // Create weight logs for each user
+            Weight::factory()->count(5)->create(['user_id' => $user->id]);
+        });
     }
 }

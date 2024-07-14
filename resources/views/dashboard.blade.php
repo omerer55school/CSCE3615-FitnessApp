@@ -117,11 +117,35 @@
                         </table>
                     </div>
                 </div>
+
+
+
+
+
+
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
     
     <script>
+
+
+
+
+
+
+
+
+
         function toggleSection(subSectionId) {
             const subSection = document.getElementById(subSectionId);
             if (subSection) {
@@ -145,6 +169,14 @@
             loadData('activity');
             loadData('weight');
         });
+
+
+
+
+
+
+
+
 
         function loadData(entity) {
             if (entity === 'activity') {
@@ -179,6 +211,14 @@
                 });
             }
         }
+
+
+
+
+
+
+
+
 
         function displayActivities(activities) {
             console.log(activities);
@@ -230,6 +270,14 @@
             });
         }
 
+
+
+
+
+
+
+
+
         function filterWeights() {
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
@@ -256,6 +304,14 @@
             });
         }
 
+
+
+
+
+
+
+
+
         function displayWeights(weights) {
             const tbody = document.getElementById('weight-log-tbody');
             tbody.innerHTML = ''; // Clear existing rows
@@ -270,6 +326,14 @@
             });
         }
 
+
+
+
+
+
+
+
+
         function calculateWeightChange(weights) {
             if (weights.length > 1) {
                 const weightChange = weights[weights.length - 1].weight - weights[0].weight;
@@ -278,6 +342,13 @@
                 document.getElementById('weightChangeDisplay').textContent = 'Not enough data to calculate change.';
             }
         }
+
+
+
+
+
+
+
 
 
 
@@ -307,6 +378,14 @@
             });
         }
 
+
+
+
+
+
+
+
+
         function displayCalorieChange(data) {
             console.log(data);
             const calorieChangeDisplay = document.getElementById('calorieChangeDisplay');
@@ -328,7 +407,11 @@
 
 
 
-        
+
+
+
+
+
 
         function getCSRFToken() {
             return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
