@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // Create 10 users
         User::factory()->count(10)->create()->each(function ($user) {
             // Create 5 activities for each user
-            Activity::factory()->count(5)->create(['user_id' => $user->id])->each(function ($activity) {
+            Activity::factory()->count(100)->create(['user_id' => $user->id])->each(function ($activity) {
                 // Create cardio and workout activities
                 if (rand(0, 1)) {
                     CardioActivity::factory()->create(['activity_id' => $activity->id]);
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             });
 
             // Create weight logs for each user
-            Weight::factory()->count(5)->create(['user_id' => $user->id]);
+            Weight::factory()->count(100)->create(['user_id' => $user->id]);
         });
     }
 }

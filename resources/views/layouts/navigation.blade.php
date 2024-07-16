@@ -44,10 +44,6 @@
 
 
                     <x-slot name="content">
-                        <x-dropdown-link onclick="toggleDarkMode()">
-                            {{ __('Toggle Dark Mode') }}
-                        </x-dropdown-link>
-
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>

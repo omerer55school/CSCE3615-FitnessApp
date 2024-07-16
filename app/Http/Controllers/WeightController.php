@@ -23,13 +23,13 @@ class WeightController extends Controller
     public function index(Request $request)
     {
         $query = Weight::where('user_id', Auth::id());
-    
+
         if ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('weight_date', [$request->start_date, $request->end_date]);
         }
-    
-        $weights = $query->orderBy('weight_date', 'asc')->get();
-    
+
+        $weights = $query->orderBy('weight_date', 'desc')->paginate(5);
+
         return response()->json($weights);
     }
     
