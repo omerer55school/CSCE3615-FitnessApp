@@ -7,8 +7,8 @@
 
     <div class="pb-24">
         <div class="flex flex-col h-screen bg-gray-100 dark:bg-gray-800 pb-24">
-            <div class="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-900">
-                <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Welcome, <span class="username">{{ Auth::user()->name }}</span>!</h1>
+            <div class="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-900 ml-4">
+                <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Welcome, <span class="username mr-1">{{ Auth::user()->name }}</span>!</h1>
             </div>
     
             <div class="flex-1">
@@ -25,7 +25,7 @@
 
                 <!-- Activity Log Section -->
                 <div class="section px-4 pb-4 bg-white dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600">
-                    <div class="py-4 font-[500] flex cursor-pointer">
+                    <div class="py-4 font-[500] flex cursor-pointer ml-2">
                         <p>Activity Log</p>
                     </div>
                     <div class="sub-section p-2 bg-gray-100" id="activitySubSection">
@@ -84,7 +84,7 @@
 
                 <!-- Weight Log Section -->
                 <div class="section px-4 pb-4 bg-white dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 pb-24">
-                    <div class="py-4 font-[500] flex cursor-pointer">
+                    <div class="py-4 font-[500] flex cursor-pointer ml-2">
                         <p>Weight Log</p>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="8" class="mx-5">
                             <path d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z"/>
@@ -143,7 +143,7 @@
 
 
                 <footer class="bg-gray-800 text-white text-center py-4 bottom-0 w-full">
-                   ( UNT CSCE 3615 | Daniel Burgess | Omer Muhammad | Stephanie Molina | Vanshika Ganga | Zachary Gilbert )
+                    UNT CSCE 3615 Group 1 | Stephanie Molina | Daniel Burgess | Omer Muhammad | Vanshika Ganga | Zachary Gilbert 
                 </footer>
                 
 
