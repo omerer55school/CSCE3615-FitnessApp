@@ -8,20 +8,34 @@ use App\Models\CardioActivity;
 use App\Models\WorkoutActivity;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class ActivityController
+ *
+ * Handles storing and retrieving user activities including cardio and workout activities.
+ */
 class ActivityController extends Controller
 {
+    /**
+     * Store a new activity along with cardio and workout details.
+     *
+     * @param Request $request The HTTP request instance.
+     * @return \Illuminate\Http\JsonResponse JSON response with the status and activity ID.
+     */
     public function store(Request $request)
-    {   
-        \Log::info($request->all());
+    {
+        \Log::info($request->all()); // Log the request data for debugging purposes
+
+        // Create a new activity
         $activity = Activity::create([
-            'user_id' => Auth::id(),
-            'activity_date' => $request->activity_date,
+            'user_id' => Auth::id(), // Get the authenticated user's ID
+            'activity_date' => $request->activity_date, // Set the activity date
         ]);
 
-        // Convert weight from lbs to kg
+        // Convert user weight from lbs to kg
         $userWeightLbs = Auth::user()->weight; // Assuming weight is stored in lbs
         $userWeightKg = $userWeightLbs / 2.20462;
 
+        // Handle cardio activity data
         $cardioData = $request->cardio_activity;
         if ($cardioData['cardio_type'] || $cardioData['distance'] || $cardioData['time']) {
             $caloriesBurned = $this->calculateCalories($cardioData['cardio_type'], $userWeightKg, $cardioData['time']);
@@ -34,6 +48,7 @@ class ActivityController extends Controller
             ]);
         }
 
+        // Handle workout activities data
         foreach ($request->workouts as $workout) {
             $averageTime = 30; // Assuming 30 minutes average time per workout session
             $caloriesBurned = $this->calculateCaloriesWeightLifting($workout['workout_type'], $userWeightKg, $averageTime);
@@ -46,28 +61,48 @@ class ActivityController extends Controller
             ]);
         }
 
+        // Return a success response with the activity ID
         return response()->json(['status' => 'success', 'activity_id' => $activity->id]);
     }
 
+    /**
+     * Calculate the calories burned for a cardio activity.
+     *
+     * @param string $type The type of cardio activity.
+     * @param float $weight The user's weight in kilograms.
+     * @param int $timeMinutes The duration of the activity in minutes.
+     * @return float The calculated calories burned.
+     */
     private function calculateCalories($type, $weight, $timeMinutes) {
-        $mets = $this->getMetsForActivity($type);
+        $mets = $this->getMetsForActivity($type); // Get the METs for the activity type
         $timeHours = $timeMinutes / 60; // Convert minutes to hours
         \Log::info("Calculating Calories: METs = $mets, Weight = $weight kg, Time = $timeHours hours");
         return $mets * $weight * $timeHours;
     }
-    
 
+    /**
+     * Calculate the calories burned for weight lifting activities.
+     *
+     * @param string $type The type of workout activity.
+     * @param float $weight The user's weight in kilograms.
+     * @param int $timeMinutes The duration of the activity in minutes.
+     * @return float The calculated calories burned.
+     */
     private function calculateCaloriesWeightLifting($type, $weight, $timeMinutes) {
-        // Default to a typical MET for general weightlifting/workout activities
         $mets = 5.0; // A general MET for standard gym workouts
         $timeHours = $timeMinutes / 60; // Convert minutes to hours
         \Log::info("Calculating Calories: METs = $mets, Weight = $weight kg, Time = $timeHours hours");
         return $mets * $weight * $timeHours;
     }
-    
-    
 
+    /**
+     * Get the METs value for a given activity type.
+     *
+     * @param string $type The type of activity.
+     * @return float The METs value for the activity.
+     */
     private function getMetsForActivity($type) {
+        // MET values for different activities
         $metValues = [
             'Running' => 10,
             'Walking' => 3.3,
@@ -82,13 +117,18 @@ class ActivityController extends Controller
             'Intense Weightlifting' => 6, // Example for more intense sessions
             'Workout' => 5 // General placeholder for unspecified workouts
         ];
-    
+
         return $metValues[$type] ?? 3.5; // Use a fallback MET value if activity type is not listed
     }
 
-
+    /**
+     * Get user activities including cardio and workout activities.
+     *
+     * @return \Illuminate\Http\JsonResponse JSON response with the user's activities.
+     */
     public function getUserActivities()
     {
+        // Query for user activities with cardio and workout activities
         $activities = Activity::where('user_id', Auth::id())
             ->whereHas('cardioActivity', function($query) {
                 $query->whereNotNull('cardio_type')->orWhereNotNull('distance')->orWhereNotNull('time');
@@ -99,8 +139,7 @@ class ActivityController extends Controller
             ->with('cardioActivity', 'workoutActivities')
             ->orderBy('activity_date', 'desc')
             ->get();
-    
-        return response()->json($activities);
-    }
 
+        return response()->json($activities); // Return the activities as JSON response
+    }
 }
